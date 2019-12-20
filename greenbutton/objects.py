@@ -3,8 +3,8 @@
 import datetime
 import functools
 
-from enums import *
-from utils import *
+from .enums import *
+from .utils import *
 
 
 @functools.total_ordering

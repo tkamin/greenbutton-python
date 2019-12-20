@@ -3,9 +3,9 @@
 import bisect
 import functools
 
-from utils import *
-from enums import *
-from objects import *
+from .utils import *
+from .enums import *
+from .objects import *
 
 class Resource(object):
     def __init__(self, entry):
