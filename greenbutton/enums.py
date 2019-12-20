@@ -58,7 +58,14 @@ class CurrencyCode(Enum):
             return '€'
         else:
             return '¤'
-        
+
+    @property
+    def uom_id(self):
+        if self in CURRENCY_UOM_IDS:
+            return CURRENCY_UOM_IDS[self]
+        else:
+            return None
+
 class DataQualifierType(Enum):
     notApplicable = 0
     average = 2
@@ -208,4 +215,34 @@ UOM_SYMBOLS = {
     UomType.gaugePascals: 'Pag',
     UomType.absolutePascals: 'Pa',
     UomType.therms: 'thm',
+}
+
+UOM_IDS = {
+    UomType.amps: 'electric current_A',
+    UomType.volts: 'electric potential_V',
+    UomType.joules: 'energy_J',
+    UomType.hertz: 'frequency_Hz',
+    UomType.watts: 'power_W',
+    UomType.cubicMeters: 'volume_m**3',
+    UomType.voltAmps: 'apparent power_VA',
+    UomType.voltAmpsReactive: 'reactive power_VAR',
+    UomType.voltAmpHours: 'apparent energy_VAh',
+    UomType.wattHours: 'energy_Wh',
+    UomType.voltAmpReactiveHours: 'reactive energy_VARh',
+    UomType.ampHours: 'electric charge_Ah',
+    UomType.cubicFeet: 'volume_ft**3',
+    UomType.usGallons: 'volume_gal',
+    UomType.britishThermalUnits: 'energy_BTU',
+    UomType.britishThermalUnitsPerHour: 'power_BTU-h',
+    UomType.liters: 'volume_L',
+    UomType.litersPerHour: 'volumetric flow_L-h',
+    UomType.absolutePascals: 'pressure_Pa',
+    UomType.therms: 'energy_therm',
+}
+
+CURRENCY_UOM_IDS = {
+    CurrencyCode.aus: 'currency_AUD',
+    CurrencyCode.cad: 'currency_CAD',
+    CurrencyCode.usd: 'currency_USD',
+    CurrencyCode.eur: 'currency_EUR'
 }

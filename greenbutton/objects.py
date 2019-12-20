@@ -2,6 +2,7 @@
 
 import datetime
 import functools
+import pytz
 
 from .enums import *
 from .utils import *
@@ -13,7 +14,7 @@ class DateTimeInterval:
         self.duration = getEntity(entity, 'espi:duration',
                                   lambda e: datetime.timedelta(seconds=int(e.text)))
         self.start = getEntity(entity, 'espi:start',
-                               lambda e: datetime.datetime.fromtimestamp(int(e.text)))
+                               lambda e: datetime.datetime.fromtimestamp(int(e.text), pytz.timezone("UTC")))
         
     def __repr__(self):
         return '<DateTimeInterval (%s, %s)>' % (self.start, self.duration)
@@ -79,6 +80,10 @@ class IntervalReading:
         return self.cost_units.symbol
 
     @property
+    def cost_uom_id(self):
+        return self.cost_units.uom_id
+
+    @property
     def value_units(self):
         if self.intervalBlock is not None and \
            self.intervalBlock.meterReading is not None and \
@@ -91,6 +96,13 @@ class IntervalReading:
     @property
     def value_symbol(self):
         return UOM_SYMBOLS[self.value_units]
+
+    @property
+    def value_uom_id(self):
+        if self.value_units in UOM_IDS:
+            return UOM_IDS[self.value_units]
+        else:
+            return None
         
 class ReadingQuality:
     def __init__(self, entity, parent):
