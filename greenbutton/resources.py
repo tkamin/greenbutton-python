@@ -35,10 +35,16 @@ class UsagePoint(Resource):
             if self.isParentOf(mr):
                 self.addMeterReading(mr)
 
+        self.localTimeParameters = None
+
     def addMeterReading(self, meterReading):
         assert self.isParentOf(meterReading)
         self.meterReadings.add(meterReading)
         meterReading.usagePoint = self
+
+    def addLocalTimeParameters(self, localTimeParameters):
+        assert self.isParentOf(localTimeParameters)
+        self.localTimeParameters = localTimeParameters
 
         
 class MeterReading(Resource):
@@ -111,6 +117,19 @@ class ReadingType(Resource):
                 mr.setReadingType(self)
 
 
+class LocalTimeParameters(Resource):
+    def __init__(self, entry, usagePoints=[]):
+        super(LocalTimeParameters, self).__init__(entry)
+        self.localTimeParameters = None
+
+        obj = entry.find('./atom:content/espi:LocalTimeParameters', ns)
+        self.tzOffset = getEntity(obj, 'espi:tzOffset', lambda e: int(e.text))
+
+        for up in usagePoints:
+            if up.isParentOf(self):
+                up.addLocalTimeParameters(self)
+
+
 @functools.total_ordering
 class IntervalBlock(Resource):
     def __init__(self, entry, meterReadings=[]):
@@ -120,7 +139,7 @@ class IntervalBlock(Resource):
         obj = entry.find('./atom:content/espi:IntervalBlock', ns)
         self.interval = getEntity(obj, 'espi:interval', lambda e: DateTimeInterval(e))
         self.intervalReadings = sorted([IntervalReading(ir, self) for ir in obj.findall('espi:IntervalReading', ns)])
-            
+
         for mr in meterReadings:
             if mr.isParentOf(self):
                 mr.addIntervalBlock(self)

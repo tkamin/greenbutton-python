@@ -18,6 +18,9 @@ def parse_feed(filename):
         mr = MeterReading(entry, usagePoints=usagePoints)
         meterReadings.append(mr)
 
+    for entry in tree.getroot().findall('atom:entry/atom:content/espi:LocalTimeParameters/../..', ns):
+        ltp = LocalTimeParameters(entry, usagePoints=usagePoints)
+
     readingTypes = []
     for entry in tree.getroot().findall('atom:entry/atom:content/espi:ReadingType/../..', ns):
         rt = ReadingType(entry, meterReadings=meterReadings)
