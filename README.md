@@ -1,6 +1,10 @@
 This is some python code to parse an Energy Service Provider Interface
 (ESPI), or "Green Button" XML file into Python objects.
 
+```
+python greenbutton/parse.py testdata/green_button_data_1724106323848.xml
+```
+
 Run `parse_feed()` from the `parse.py` file to get a list of `UsagePoint`
 objects.  From there you should be able to explore all of the data in the
 feed.  Documentation is a little lacking at the moment, but the class

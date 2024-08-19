@@ -76,6 +76,7 @@ class DataQualifierType(Enum):
 class FlowDirectionType(Enum):
     notApplicable = 0
     forward = 1
+    unknown = 4
     reverse = 19
         
 class KindType(Enum):

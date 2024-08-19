@@ -4,8 +4,8 @@ import datetime
 import functools
 import pytz
 
-from .enums import *
-from .utils import *
+from enums import *
+from utils import *
 
 
 @functools.total_ordering
